@@ -68,6 +68,7 @@ import {
 } from '@/utils/alerts';
 
 import HDXMarkdownChart from '../HDXMarkdownChart';
+import type { NumberFormat } from '../types';
 
 import { AggFnSelectControlled } from './AggFnSelect';
 import DBNumberChart from './DBNumberChart';
@@ -106,7 +107,7 @@ const NumberFormatInputControlled = ({
       name="numberFormat"
       render={({ field: { onChange, value } }) => (
         <NumberFormatInput
-          onChange={newValue => {
+          onChange={(newValue?: NumberFormat) => {
             onChange(newValue);
             onSubmit();
           }}
