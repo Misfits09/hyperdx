@@ -1,5 +1,47 @@
 # @hyperdx/app
 
+## 2.8.1
+
+### Patch Changes
+
+- 586bcce7: feat: Add previous period comparisons to line chart
+- 4503d394: improve markdown rendering after we removed bootrstrap reset styles
+- 337be9a2: Add support for deeplinking to search page from most charts and tables
+- 991bd7e6: fix: Round previous period offset to the second
+- 562dd7ea: Fix minor UI issues and enhance styling across various components
+- 087ff400: feat: Grouped filters for map/json types
+- b7789ced: chore: deprecate unused go-parser service
+- 237a2677: style: Fix missing AlertHistory colors
+- 3f941058: fix issue with query timeout on the search page
+- bacefac9: fix: Fix session page source change on submit
+- 2f25ce6f: fix: laggy performance across app
+- d7a5c43b: feat: add ability to change live tail refresh interval
+
+  Adds a dropdown selector in the search page that allows users to configure the live tail refresh interval. Options include 1s, 2s, 4s (default), 10s, and 30s. The selected refresh frequency is persisted in the URL query parameter.
+
+- 36cf8665: fix: Don't clobber spans in trace waterfall when multiple spans have duplicate span ids
+- 07392d23: feat: Add clickpy_link to clickpy trace source attributes
+- f868c3ca: Add back selection ui on histogram
+- 21146027: chore: remove deprecated SpanAttribute.http.scheme reference from serviceDashboard
+- 70fe682b: Add clickable alert timeline chips
+- 7cf4ba4d: Allow HyperDX's listen address to be overriden at runtime with the env var HYPERDX_APP_LISTEN_HOSTNAME. The default remains 0.0.0.0 .
+- 3b2a8633: fix: sort on the client side in KubernetedDashboardPage
+- 770276a1: feat: Add waterfall span/error count summary, span tooltip status
+- 59422a1a: feat: Add custom attributes for individual rows
+- 7405d183: bump typescript version
+- 815e6424: chore: treat missing react hook dependencies as errors
+- 5b7d646f: fix: date/timepicker issue with dates in the future
+- c8ec7fa9: fix: Hide table header when no columns are displayed
+- 770276a1: feat: Add search to trace waterfall
+- a9f10c5f: feat: Add highlighted attributes to overview panel
+- Updated dependencies [586bcce7]
+- Updated dependencies [ea25cc5d]
+- Updated dependencies [b7789ced]
+- Updated dependencies [59422a1a]
+- Updated dependencies [7405d183]
+- Updated dependencies [770276a1]
+  - @hyperdx/common-utils@0.8.1
+
 ## 2.8.0
 
 ### Minor Changes
