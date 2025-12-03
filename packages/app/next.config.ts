@@ -1,6 +1,5 @@
 const { configureRuntimeEnv } = require('next-runtime-env/build/configure');
-const { version } = require('./package.json');
-
+import { NextConfig } from 'next';
 configureRuntimeEnv();
 
 const withNextra = require('nextra')({
@@ -10,7 +9,8 @@ const withNextra = require('nextra')({
 
 const basePath = process.env.NEXT_PUBLIC_HYPERDX_BASE_PATH;
 
-module.exports = {
+const nextConfig: NextConfig = {
+  reactCompiler: true,
   basePath: basePath,
   // External packages to prevent bundling issues (moved from experimental in Next.js 15+)
   // https://github.com/open-telemetry/opentelemetry-js/issues/4297#issuecomment-2285070503
@@ -61,3 +61,5 @@ module.exports = {
       : {}),
   }),
 };
+
+export default nextConfig;
