@@ -1,15 +1,28 @@
-const { configureRuntimeEnv } = require('next-runtime-env/build/configure');
-import { NextConfig } from 'next';
+import { configureRuntimeEnv } from 'next-runtime-env/build/configure.js';
+import nextra from 'nextra';
+import { readFileSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Read version from package.json
+const packageJson = JSON.parse(
+  readFileSync(join(__dirname, 'package.json'), 'utf-8')
+);
+const { version } = packageJson;
+
 configureRuntimeEnv();
 
-const withNextra = require('nextra')({
+const withNextra = nextra({
   theme: 'nextra-theme-docs',
   themeConfig: './src/nextra.config.tsx',
 });
 
 const basePath = process.env.NEXT_PUBLIC_HYPERDX_BASE_PATH;
 
-const nextConfig: NextConfig = {
+const nextConfig = {
   reactCompiler: true,
   basePath: basePath,
   // External packages to prevent bundling issues (moved from experimental in Next.js 15+)
@@ -24,14 +37,14 @@ const nextConfig: NextConfig = {
   typescript: {
     tsconfigPath: 'tsconfig.build.json',
   },
-  // Turbopack is default in Next.js 16, empty config acknowledges webpack config exists
-  turbopack: {},
+  // NOTE: Using Webpack instead of Turbopack (Next.js 16 default)
+  // Reason: Turbopack has CSS module parsing issues with nested :global syntax
+  // used in styles/SearchPage.module.scss and other SCSS files.
+  // The --webpack flag is added to dev and build scripts in package.json.
+  // TODO: Re-evaluate when Turbopack CSS module support improves
   // Ignore otel pkgs warnings
   // https://github.com/open-telemetry/opentelemetry-js/issues/4173#issuecomment-1822938936
-  webpack: (
-    config,
-    { buildId, dev, isServer, defaultLoaders, nextRuntime, webpack },
-  ) => {
+  webpack: (config, { buildId, dev, isServer, defaultLoaders, nextRuntime, webpack }) => {
     if (isServer) {
       config.ignoreWarnings = [{ module: /opentelemetry/ }];
     }
@@ -51,8 +64,6 @@ const nextConfig: NextConfig = {
         },
       ];
     },
-    // swcMinify is now default and the option has been removed in Next.js 13+
-    // publicRuntimeConfig is deprecated - use env vars or other methods instead
     productionBrowserSourceMaps: false,
     ...(process.env.NEXT_OUTPUT_STANDALONE === 'true'
       ? {
@@ -63,3 +74,4 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
+
